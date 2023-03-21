@@ -5,6 +5,7 @@ import lab.app.library.model.dto.BookDto;
 import lab.app.library.service.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -20,6 +21,11 @@ public class BookController {
     @GetMapping
     public List<Book> findAll(){
         return this.bookService.findAll();
+    }
+
+    @GetMapping("/page")
+    public List<Book> findAllWithPagination(Pageable pageable){
+        return this.bookService.findAllWithPagination(pageable).getContent();
     }
 
     @GetMapping("/{id}")
@@ -52,5 +58,4 @@ public class BookController {
                 .map(book -> ResponseEntity.ok().body(book))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
-    //TODO: book pagination
 }

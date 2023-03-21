@@ -8,6 +8,8 @@ import lab.app.library.model.exceptions.BookNotFoundException;
 import lab.app.library.repository.AuthorRepository;
 import lab.app.library.repository.BookRepository;
 import lab.app.library.service.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +28,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> findAll() {
         return bookRepository.findAll();
+    }
+
+    @Override
+    public Page<Book> findAllWithPagination(Pageable pageable) {
+        return this.bookRepository.findAll(pageable);
     }
 
     @Override
