@@ -4,6 +4,7 @@ import lab.app.library.model.Author;
 import lab.app.library.model.Book;
 import lab.app.library.model.dto.BookDto;
 import lab.app.library.model.exceptions.AuthorNotFoundException;
+import lab.app.library.model.exceptions.BookNotFoundException;
 import lab.app.library.repository.AuthorRepository;
 import lab.app.library.repository.BookRepository;
 import lab.app.library.service.BookService;
@@ -37,6 +38,32 @@ public class BookServiceImpl implements BookService {
         Author author = authorRepository.findById(bookDto.getAuthor()).orElseThrow(() -> new AuthorNotFoundException(bookDto.getAuthor()));
         Book book = new Book(bookDto.getName(),bookDto.getCategory(),author,bookDto.getAvailableCopies());
 
+        return Optional.of(this.bookRepository.save(book));
+    }
+
+    @Override
+    public Optional<Book> edit(Long id, BookDto bookDto) {
+        Author author = authorRepository.findById(bookDto.getAuthor()).orElseThrow(() -> new AuthorNotFoundException(bookDto.getAuthor()));
+        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+        book.setName(bookDto.getName());
+        book.setAuthor(author);
+        book.setCategory(bookDto.getCategory());
+        book.setAvailableCopies(bookDto.getAvailableCopies());
+        return Optional.of(this.bookRepository.save(book));
+    }
+
+    @Override
+    public void delete(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+        bookRepository.delete(book);
+    }
+
+    @Override
+    public Optional<Book> markAsTaken(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+        if (book.getAvailableCopies()>=1){
+            book.setAvailableCopies(book.getAvailableCopies()-1);
+        }
         return Optional.of(this.bookRepository.save(book));
     }
 }
