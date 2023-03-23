@@ -5,6 +5,7 @@ import lab.app.library.model.Book;
 import lab.app.library.model.dto.BookDto;
 import lab.app.library.model.exceptions.AuthorNotFoundException;
 import lab.app.library.model.exceptions.BookNotFoundException;
+import lab.app.library.model.exceptions.CannotTakeBookException;
 import lab.app.library.repository.AuthorRepository;
 import lab.app.library.repository.BookRepository;
 import lab.app.library.service.BookService;
@@ -70,6 +71,9 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
         if (book.getAvailableCopies()>=1){
             book.setAvailableCopies(book.getAvailableCopies()-1);
+        }
+        else{
+            throw new CannotTakeBookException();
         }
         return Optional.of(this.bookRepository.save(book));
     }
