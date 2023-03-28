@@ -33,7 +33,7 @@ public class DataInitializer {
 
             Author author = new Author();
             author.setName(String.format("AuthorName %d", i));
-            author.setName(String.format("AuthorSurname %d", i));
+            author.setSurname(String.format("AuthorSurname %d", i));
             author.setCountry(country);
             authorRepository.save(author);
 
