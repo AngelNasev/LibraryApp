@@ -16,6 +16,9 @@ const header = (props) => {
                             <Link className="nav-link" to={"/books"}>Books</Link>
                         </li>
                         <li className="nav-item active">
+                            <Link className="nav-link" to={"/books/page"}>Paged Books</Link>
+                        </li>
+                        <li className="nav-item active">
                             <Link className="nav-link" to={"/categories"}>Categories</Link>
                         </li>
 

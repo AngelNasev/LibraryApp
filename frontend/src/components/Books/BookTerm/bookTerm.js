@@ -9,7 +9,16 @@ const bookTerm = (props) => {
             <td>{props.term.author.name}</td>
             <td>{props.term.availableCopies}</td>
             <td className={"text-right"}>
-                <Link className={"btn btn-danger ml-2"}
+                <Link className={"btn btn-success"}
+                      onClick={() => props.onTake(props.term.bookId)}>
+                    Mark As Taken
+                </Link>
+                <Link className={"btn btn-info mx-2"}
+                      onClick={() => props.onEdit(props.term.bookId)}
+                      to={`/books/edit/${props.term.bookId}`}>
+                    Edit
+                </Link>
+                <Link className={"btn btn-danger"}
                       onClick={() => props.onDelete(props.term.bookId)}>
                     Delete
                 </Link>
